@@ -1,0 +1,35 @@
+{
+  "params" : [
+    {
+      "settings" : {
+        "validation_size": 0.2,
+        "img_size" : 128,
+        "num_channels" : 3,
+        "learning_rate" : 1e-3,
+        "num_iteration" : 100,
+        "batch_size" : 24,
+        "input_layer_dropout" : 0,
+        "flatten_layer_dropout" : 0
+      },
+      "conv_layers_params" : [
+        {"num_input_channels" : 3, "filter_size" : 3, "num_filters" : 32, "dropout" : 0.3},
+        {"num_input_channels" : 32, "filter_size" : 3, "num_filters" : 32, "dropout" : 0.3},
+        {"num_input_channels" : 32, "filter_size" : 3, "num_filters" : 32, "dropout" : 0.3},
+        {"num_input_channels" : 32, "filter_size" : 3, "num_filters" : 64, "dropout" : 0.3}
+      ],
+      "fc_layers_params" : [
+        {"num_outputs" : 128, "use_relu" : true, "dropout" : 0.2},
+        {"num_outputs" : 2, "use_relu" : false, "dropout" : 0}
+      ],
+      "transformations" : [
+        {"type": "centre_scale", "args": {"scale" : 1.25}},
+        {"type": "top_left_scale", "args": {"scale" : 1.25}},
+        {"type": "bottom_left_scale", "args": {"scale" : 1.25}},
+        {"type": "top_right_scale", "args": {"scale" : 1.25}},
+        {"type": "bottom_right_scale", "args": {"scale" : 1.25}},
+        {"type": "rotate", "args": {"angle" : 10}},
+        {"type": "rotate", "args": {"angle" : -10}}
+      ]
+    }
+  ]
+}

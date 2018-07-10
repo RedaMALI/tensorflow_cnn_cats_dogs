@@ -1,5 +1,6 @@
-./*_data/*
-.vscode
-__pycache__
-./*-results/*
-./jupyter_notebooks/*
+*_data/
+.vscode/
+__pycache__/
+*-results/
+jupyter_notebooks/
+params.json
