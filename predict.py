@@ -8,7 +8,7 @@ import sys,argparse
 import os
 
 # Set ID
-train_id = '20180705221321'
+train_id = '20180710084514'
 
 # Settings
 categories = ['cats','dogs']
@@ -23,7 +23,7 @@ model_path = checkpoint_path + 'model.ckpt.meta'
 categories_size = len(categories)
 
 # Logging
-logging = TrainLogging(checkpoint_path, train_id)
+logging = TrainLogging(results_path, train_id)
 
 ## Let us restore the saved model 
 sess = tf.Session()

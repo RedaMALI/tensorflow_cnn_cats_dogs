@@ -35,7 +35,7 @@ class TrainLogging(object):
   
   @staticmethod
   def _get_settings_header():
-    return "classes_count;classes;validation_size;img_size;num_channels;learning_rate;num_iteration;batch_size;input_layer_dropout;flatten_layer_dropout;conv_layers_count;conv_layers_params;fc_layers_count;fc_layers_params;transformations_count;transformations;training_data;validation_data"
+    return "train_id;classes_count;classes;validation_size;img_size;num_channels;learning_rate;num_iteration;batch_size;input_layer_dropout;flatten_layer_dropout;conv_layers_count;conv_layers_params;fc_layers_count;fc_layers_params;transformations_count;transformations;training_data;validation_data"
   
   @staticmethod
   def _get_epochs_header():
@@ -43,7 +43,7 @@ class TrainLogging(object):
     
   @staticmethod
   def _get_results_header():
-    return "class_count;data_count;correct_predictions"
+    return "train_id;class_count;data_count;correct_predictions"
 
   def get_epochs_path(self):
     return os.path.join(self._current_results_path, self._train_id, self._epochs_file_name)
@@ -57,7 +57,8 @@ class TrainLogging(object):
   def log_settings(self, classes, settings, conv_layers_params, fc_layers_params, transformations, data):
     log_path = self.get_settings_path()
     file_handler = open(log_path, "a")
-    line = "{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{}".format(
+    line = "{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{}".format(
+      self._train_id,
       len(classes),
       json.dumps(classes),
       settings['validation_size'],
@@ -98,7 +99,8 @@ class TrainLogging(object):
     file_handler = open(log_path, "a")
     
     for index, class_name in enumerate(classes) :
-      line = "{};{};{}".format(
+      line = "{};{};{};{}".format(
+        self._train_id,
         class_name,
         data_counts[index],
         results[index]

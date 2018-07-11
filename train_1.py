@@ -162,3 +162,6 @@ for params in params_list['params'] :
     total_iterations += num_iteration
 
   train(num_iteration=settings['num_iteration'])
+  
+  # Pause 60 seconde before next training
+  time.sleep(60)
