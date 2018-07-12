@@ -43,6 +43,9 @@ params_file = open('./params.json')
 json_str = params_file.read()
 params_list = json.loads(json_str)
 
+# Open file to store train ids
+train_ids_output_handler = open(results_path+'to_predict.txt', 'w')
+
 for params in params_list['params'] :
   settings = params['settings']
   conv_layers_params = params['conv_layers_params']
@@ -162,6 +165,12 @@ for params in params_list['params'] :
     total_iterations += num_iteration
 
   train(num_iteration=settings['num_iteration'])
+
+  # Store train_id
+  train_ids_output_handler.write(train_id+"\n")
   
   # Pause 60 seconde before next training
   time.sleep(60)
+
+# Close train ids file
+train_ids_output_handler.close()
