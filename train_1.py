@@ -168,6 +168,10 @@ for params in params_list['params'] :
 
   # Store train_id
   train_ids_output_handler.write(train_id+"\n")
+
+  # Reset
+  tf.reset_default_graph()
+  session.close()
   
   # Pause 60 seconde before next training
   time.sleep(60)
