@@ -80,7 +80,49 @@ def get_flip(image, horizontal = 1, vertical = 0):
     return cv2.flip( image, 0 )
   if vertical == 1:
     return cv2.flip( image, 1 )
-  
+
+def get_gaussian_noise(image, var):
+  row,col,ch= image.shape
+  mean = 0
+  sigma = var**0.5
+  gauss = np.random.normal(mean,sigma,(row,col,ch))
+  gauss = gauss.reshape(row,col,ch)
+  noisy = image + gauss
+  return noisy
+
+def get_salt_pepper_noise(image, s_vs_p, amount):
+  row,col,ch = image.shape
+  out = np.copy(image)
+  # Salt mode
+  num_salt = np.ceil(amount * image.size * s_vs_p)
+  coords = [np.random.randint(0, i - 1, int(num_salt)) for i in image.shape]
+  out[coords] = 1
+  # Pepper mode
+  num_pepper = np.ceil(amount* image.size * (1. - s_vs_p))
+  coords = [np.random.randint(0, i - 1, int(num_pepper)) for i in image.shape]
+  out[coords] = 0
+  return out
+
+def get_poisson_noise(image):
+  vals = len(np.unique(image))
+  vals = 2 ** np.ceil(np.log2(vals))
+  noisy = np.random.poisson(image * vals) / float(vals)
+  return noisy
+
+def get_speckle_noise(image):
+  row,col,ch = image.shape
+  gauss = np.random.randn(row,col,ch)
+  gauss = gauss.reshape(row,col,ch)        
+  noisy = image + image * gauss
+  return noisy
+
+def get_brightness(image, value):
+  hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+  h, s, v = cv2.split(hsv)
+  v += value
+  final_hsv = cv2.merge((h, s, v))
+  return cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+
 # tools
 def get_supported_transformations():
   return {
@@ -94,6 +136,11 @@ def get_supported_transformations():
     'bottom_right_scale' : get_bottom_right_scale,
     'rotate' : get_rotate,
     'flip' : get_flip,
+    'gaussian_noise' : get_gaussian_noise,
+    'salt_pepper_noise' : get_salt_pepper_noise,
+    'poisson_noise' : get_poisson_noise,
+    'speckle_noise' : get_speckle_noise,
+    'brightness' : get_brightness,
   }
   
   
